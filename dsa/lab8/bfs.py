@@ -1,4 +1,4 @@
-from repr import Graph
+from graph import Graph
 from queue import Queue
 
 def BFS(G, source):
@@ -19,15 +19,10 @@ def BFS(G, source):
     print()
    
 def main():
-    print("num vertices: ", end="")
-    v = int(input())
-    print("num edges: ", end="")
-    e = int(input())
-
-    G = Graph(v, e) 
-    for i in range(0, e):
-        x, y = [int(j) for j in input().split()]
-        G.insert(x, y)
+    v = int(input("num vertices: "))
+    G = Graph(v) 
+    print("enter edges")
+    G.input()
 
     source = int(input("Source vertex: "))    
     BFS(G, source)

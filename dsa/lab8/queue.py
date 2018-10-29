@@ -28,9 +28,6 @@ class Queue:
             return
         return self.Q[self.front]
 
-  
-  
-# Driver Code 
 if __name__ == '__main__': 
   
     queue = Queue(30) 

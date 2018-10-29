@@ -1,25 +1,35 @@
-from repr import Graph
+from graph import Graph
 
-def DFS(G, source, current):
-    G.visited[source] = 1
-    current[source] = 1
+def DFS(G, u, current):
+    G.visited[u] = 1
+    current[u] = 1
     
+    for t in G.adjList[u]:
+        if G.visited[t] == 0:
+            DFS(G, t, current)
+        elif current[t] == 1:
+            return True
+    current[u] = 0
+    return False
+
+
 def detectCycle(G):
     current = [None for i in range(G.V)]
     for i in range(G.V):
-        if G.visited == 0:
+        if G.visited[i] == 0:
             c = DFS(G, i, current)
             if c == True:
                 print("Cycle exists")
+                return True
             else:
                 print("No Cyle")
+                return False
 def main():
-    print("num vertices: ", end="")
-    v = int(input())
-    print("num edges: ", end="")
-    e = int(input())
-
-    G = Graph(v, e)
+    v = int(input("num vertices: "))
+    G = Graph(v) 
+    print("enter edges")
     G.input()
-
     detectCycle(G)
+
+if __name__ == '__main__':
+    main()

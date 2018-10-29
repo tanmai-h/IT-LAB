@@ -9,13 +9,13 @@ class Graph:
         self.visited = [0 for i in range(self.V)]
         self.dist = [-1 for i in range(self.V)]
     
-    def insert(self, x, y, undirected = 0):
+    def insert(self, x, y, directed = 0):
         self.adjList[x].append(y)
-        if undirected == 0:
+        if directed == 0:
             self.adjList[y].append(x)
 
         self.matrix[x][y] = 1
-        if undirected == 0:
+        if directed == 0:
             self.matrix[y][x] = 1
     
     def printMatrix(self):
@@ -30,22 +30,23 @@ class Graph:
                 print(self.adjList[i][j], end = " ")
             print()
     def input(self):
-        for i in range(0, self.E):
-            x, y = [int(j) for j in input().split()]
-            self.insert(x, y)
-def main():
-    print("num vertices: ", end="")
-    v = int(input())
-    print("num edges: ", end="")
-    e = int(input())
+        while True:
+            q = input()
+            if q.strip() == "":
+                break
+            else:
+                x, y = [int(j) for j in q.split()]
+                self.insert(x, y)
+                self.E = self.E + 1
 
-    G = Graph(v, e) 
-    for i in range(0, e):
-        x, y = [int(j) for j in input().split()]
-        G.insert(x, y)
-    
+def main():
+    v = int(input("num vertices: "))
+    G = Graph(v) 
+    print("enter edges")
+    G.input()
     G.printList()
     print()
     G.printMatrix()
+
 if __name__ == '__main__':
     main()
