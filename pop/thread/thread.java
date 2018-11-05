@@ -6,8 +6,8 @@ class multi implements Runnable
 	{
 		synchronized(this)
 		{
-            for(int i = 0; i < 3; i++) {
-                System.out.println(i);
+            for(int i = 0; i < 9; i++) {
+                System.out.println("Thread" + i);
             }
 		}
 	}
