@@ -1,0 +1,8 @@
+abel
+kane
+cla
+jen
+abel,cla,jen
+kane,jen,cla
+cla,kane,abel
+jen,abel,kane
