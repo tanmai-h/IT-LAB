@@ -7,15 +7,17 @@ def get_names(n):
     name = 'input.txt'
     file = open(name, 'r')
     men,women = {},{}
+    idmen,idwomen = {}, {}
     mpref,wpref = [None for i in range(n)],[None for i in range(n)]
 
     for i in range(0,n):
         m = file.readline().strip()
         men[m] = i
+        idmen[i] = m
     for i in range(0,n):
         w = file.readline().strip()
         women[w] = i
-
+        idwomen[i] = w
     for i in range(0,n):
         p0 = []
         p = file.readline().strip().split(',')
@@ -32,7 +34,7 @@ def get_names(n):
     
     file.close()
 
-    return men,mpref,women,wpref
+    return men,mpref,women,wpref,idmen,idwomen
 
 def build_inv(wpref):
     n = len(wpref)
@@ -46,31 +48,35 @@ def build_inv(wpref):
     return invlist
 
 def match(n):
-    mid,mpref,wid,wpref = get_names(n)
-    prop_index = [0 for i in range(n)]
+    mid,mpref,wid,wpref,idm,idw = get_names(n)
+    prop_index = [0 for i in range(n)] #prop[i] = for man i, gives index of woman he must ask in mpref (not the woman id itself)
     freemen = Queue(maxsize=n)
     for i  in range(n):
         freemen.put(i)
-    wpartner =[-1 for i in range(n)]
-    
+    wpartner =[-1 for i in range(n)] #wpart[i] = man id who w is paired with (w,m)
     invlist = build_inv(wpref)
     
     while(freemen.empty() is False):
         m = freemen.get()
-        w = prop_index[m]
+        w = mpref[m][prop_index[m]]
 
         if wpartner[w] == -1: #w is free
             wpartner[w] = m
         else:
             m1 = wpartner[w]
-            if invlist[w][m] > invlist[w][m1]:
+            if invlist[w][m] < invlist[w][m1]:
                 wpartner[w] = m  # make (m,w) as pair instead of (m1,w)
-                prop_index[m1] += 1 #inc m1's woman prop_index
                 freemen.put(m1) #make m1 as free
-        
+            else:
+                freemen.put(m) #set m back as free
         prop_index[m] += 1
 
     for i in range(n):
-        print(mid[wpartner[i]], wid[i])
-match(2)
+        print(idm[wpartner[i]], idw[i])
 
+def main():
+    n = int(input('Enter n: ').strip())
+    match(n)
+
+if __name__ == '__main__':
+    main()
