@@ -17,7 +17,16 @@ int main() {
     server.sin_addr.s_addr = inet_addr("127.0.0.1");
     server.sin_port = htons(portno);
 
-    if(connect(sockfd,(struct sockaddr *) &server, sizeof(server))) {
-        
+    if(connect(sockfd,(struct sockaddr *) &server, sizeof(server)) < 0) {
+        printf("cant connect");
+        return EXIT_FAILURE;
     }
+
+    char fname[256],buffer[256];
+    printf("Filename: "); scanf("%s",fname);
+    write(sockfd, fname, sizeof(fname));
+    
+    recv(sockfd, buffer, sizeof(buffer), 0);
+    printf("%s", buffer);
+        
 }

@@ -51,7 +51,7 @@ int main( int argc, char *argv[] ) {
    
    /* If connection is established then start communicating */
    bzero(buffer,256);
-   n = read( newsockfd,buffer,255 );
+   n = read(newsockfd,buffer,255 );
    
    if (n < 0) {
       perror("ERROR reading from socket");
