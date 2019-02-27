@@ -15,22 +15,22 @@ class Graph:
             self.adj[v].append(u)
 
         self.weight[u][v] = w
-
+        self.weight[v][u] = w
 def MST(G):
     edges = []
     T = []
     dsj = DSJ(G.V)
 
-    for u in G.adj:
-        for v in G.adj[v]:
+    for u in range(G.V):
+        for v in G.adj[u]:
             edges.append((u,v))
     
-    edges = sorted(edges,key=G.weight[u][v])
-
+    edges = sorted(edges,key=lambda pair: G.weight[pair[0]][pair[1]])
+    
     for i in range(G.V):
         dsj.makeset(i)
-
-    for (u,v) in range(len(edges)):
+    
+    for (u,v) in edges:
         if dsj.find(u) != dsj.find(v):
             dsj.union(u,v)
             T.append((u,v,G.weight[u][v]))
@@ -39,8 +39,8 @@ def MST(G):
 if __name__ == '__main__':
     V,E = [int(x) for x in input().strip().split()]
     G = Graph(V,E)
-
     for i in range(E):
         x,y,w = [int(i) for i in input().split()]
         G.add(x,y,w)
+    print(G.weight[0][1])
     MST(G)

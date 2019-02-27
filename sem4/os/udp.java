@@ -9,7 +9,7 @@ public class udp
 	public static void main(String[] args) 
 	{ 
 		if (args.length != 2) 
-			System.out.println("Two arguments required: <multicast-host> <port-number>"); 
+			System.out.println("<multicast-host> <port-number>"); 
 		else
 		{ 
 			try
@@ -17,7 +17,7 @@ public class udp
 				InetAddress group = InetAddress.getByName(args[0]); 
 				int port = Integer.parseInt(args[1]); 
 				Scanner sc = new Scanner(System.in); 
-				System.out.print("Enter your name: "); 
+				System.out.print("name: "); 
 				name = sc.nextLine(); 
 				MulticastSocket socket = new MulticastSocket(port); 
 			

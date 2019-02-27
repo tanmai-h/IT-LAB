@@ -5,7 +5,7 @@
 using namespace std;
 
 int peak(vector<int> &vec, int l, int r) {
-    int m = (l-r)/2 + r;
+    int m = (r-l)/2 + l;
 
     if((vec[m]>vec[m-1]) && (vec[m]>vec[m+1]))
         return vec[m];
