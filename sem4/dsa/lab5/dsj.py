@@ -9,15 +9,11 @@ class DSJ:
     def makeset(self, i):
         self.parent[i] = i
         self.rank[i] = 0
-    def _find(self, i):
-        if self.parent[i] != i:
-            self.parent[i] = self._find(self.parent[i])
-    
-        return i
     def find(self, i):
-        self._find(i)
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        
         return self.parent[i]
-
     def union(self, u, v):
         ru = self.find(u)
         rv = self.find(v)
