@@ -14,6 +14,7 @@ public int add(int x,int y){
    }
    public static void main(String args[]){
       try{
+		System.out.println("Remote Ready");
          Adder ob=new AdderRemote();
          Naming.rebind("rmi://localhost:6000/adder",ob);
       }catch(Exception e){

@@ -21,9 +21,9 @@ public class udp
 				name = sc.nextLine(); 
 				MulticastSocket socket = new MulticastSocket(port); 
 			
-				// Since we are deploying 
+				
 				socket.setTimeToLive(0); 
-				//this on localhost only (For a subnet set it as 1) 
+				
 				
 				socket.joinGroup(group); 
 				Thread t = new Thread(new

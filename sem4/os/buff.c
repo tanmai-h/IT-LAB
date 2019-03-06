@@ -1,54 +1,135 @@
-#include<stdio.h>
-#include<pthread.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <pthread.h>
+#include <stdlib.h>
 
-#define Buffer_Limit 10
+#define BUFSIZE 10
 
-int Buffer_Index_Value = 0;
-char *Buffer_Queue;
+#define MUTEX 0
+#define FULL 1
+#define EMPTY 2
 
-pthread_mutex_t mutex_variable = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t Buffer_Queue_Not_Full = PTHREAD_COND_INITIALIZER;
-pthread_cond_t Buffer_Queue_Not_Empty = PTHREAD_COND_INITIALIZER;
+int semid;
 
-void *Consumer()
-{
-      while(1)
-      {
-            pthread_mutex_lock(&mutex_variable);
-            if(Buffer_Index_Value == -1)
-            {            
-                  pthread_cond_wait(&Buffer_Queue_Not_Empty, &mutex_variable);
-            }                
-            printf("Consumer:%d\t", Buffer_Index_Value--);        
-            pthread_mutex_unlock(&mutex_variable);        
-            pthread_cond_signal(&Buffer_Queue_Not_Full);                
-      }    
+union semun {
+	int val; 
+	struct semid_ds *buf;		
+	unsigned short *array;	
+	struct seminfo *__buf;	
+};
+
+int sem_create(int nsems) { 
+	int  id;
+	key_t key = 1234;
+	int semflg = IPC_CREAT | 0666;
+	id = semget(key, nsems, semflg);
+	if(id < 0)
+	{
+		perror("semget:");
+		exit (1);
+	}
+	return id;
 }
 
-void *Producer()
-{    
-      while(1)
-      {	
-            pthread_mutex_lock(&mutex_variable);
-            if(Buffer_Index_Value == Buffer_Limit)
-            {                        
-                  pthread_cond_wait(&Buffer_Queue_Not_Full, &mutex_variable);
-            }                        
-            Buffer_Queue[Buffer_Index_Value++] = '@';
-            printf("Producer:%d\t", Buffer_Index_Value);
-            pthread_mutex_unlock(&mutex_variable);
-            pthread_cond_signal(&Buffer_Queue_Not_Empty);        
-      }    
+void sem_initialise(int semno, int val) {
+	union semun un;
+	un.val = val;
+	if(semctl(semid, semno, SETVAL, un) < 0)
+	{
+	//	printf("%d\n", semno);
+		perror("semctl:");
+		exit(2);
+	}
 }
 
-int main()
-{    
-      pthread_t producer_thread_id, consumer_thread_id;
-      Buffer_Queue = (char *) malloc(sizeof(char) * Buffer_Limit);            
-      pthread_create(&producer_thread_id, NULL, Producer, NULL);
-      pthread_create(&consumer_thread_id, NULL, Consumer, NULL);
-      pthread_join(producer_thread_id, NULL);
-      pthread_join(consumer_thread_id, NULL);
-      return 0;
+void *producer(void *id);
+void *consumer(void *id);
+
+void wait(int semno);
+void signal(int semno);
+
+int buffer[BUFSIZE], data;
+int in = 0;
+int out = 0;
+
+int i = 10000;
+int j = 10000;
+
+int	main	(int	argc,	char	*argv[])	{
+	semid = sem_create(3);
+	sem_initialise(MUTEX, 1);
+	sem_initialise(FULL, 0);
+	sem_initialise(EMPTY, 10);
+
+	pthread_t prod, cons;	
+	
+	pthread_create(&prod, NULL, producer, (void *)semid);
+	pthread_create(&cons, NULL, consumer, (void *)semid);
+	
+	pthread_exit(NULL);
+	return	0;
+}
+
+void *producer(void *id) {
+	int semid = (int) id;
+	data = 0;
+	while(i--) {
+		wait(EMPTY);
+		wait(MUTEX);
+
+		/** Critical Section **/
+		buffer[in] = data;
+		in = (in + 1) % BUFSIZE;
+		data = (data + 1) % BUFSIZE;
+		printf("P:%d\n", data);
+		//printf("P\n");
+		signal(MUTEX);
+		signal(FULL);
+	}
+	pthread_exit(NULL);
+}
+
+void *consumer(void *id) {
+	int semid = (int) id;
+	while(j--)
+	{
+	wait(FULL);
+	wait(MUTEX);
+	
+	/** Critical Section 	**/	
+	data = buffer[out];
+	out = (out + 1) % BUFSIZE;
+	printf("C:%d\n", data);
+	/** 			**/
+	
+	signal(MUTEX);
+	signal(EMPTY);
+	}	
+	
+	pthread_exit(NULL);
+}
+
+void wait(int semno) {
+	struct sembuf buf;
+	buf.sem_num = semno;
+	buf.sem_op = -1;
+	buf.sem_flg = 0;
+	if(semop(semid, &buf, 1) < 0) {
+		perror("semop:");
+		exit(2);
+	}
+}
+
+void signal(int semno) {
+	struct sembuf buf;
+	buf.sem_num = semno;
+	buf.sem_op = 1;
+	buf.sem_flg = 0;
+	if(semop(semid, &buf, 1) < 0)
+	{
+		perror("semop:");
+		exit(2);
+	}
 }
