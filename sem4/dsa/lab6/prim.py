@@ -21,20 +21,26 @@ def prim(G):
     H = MinHeap(lambda x:G.cost[x])
     G.cost[0] = 0
     H.buildHeap([i for i in range(G.V)])
-
+    print(H.heap)
     while H.size > 0:
         u = H.extractMin()
+        print("min: ", u,end=": ")
         for v in G.adj[u]:
             if G.cost[v] > G.weight[u][v]:
-                G.cost[v] = G.weight[u][v]
+                print(v, end=", ")
                 G.prev[v] = u
-                H.buildHeap([i for i in range(G.V)])
+                G.cost[v] = G.weight[u][v]
+                H.updatePriority(v)
+                print('\n',H.heap)
+                #H.buildHeap([i for i in range(G.V)])
+        print()
     T = []
     for i in range(G.V):
         if G.prev[i] is not None:
             T.append((G.prev[i],i))
     
     return T
+
 def G_input():
     V,E = [int(x) for x in input().strip().split()]
     G = Graph(V,E)

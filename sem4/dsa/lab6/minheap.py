@@ -3,10 +3,14 @@ class MinHeap:
         self.heap = [0]
         self.size = 0
         self.func = func
+        self.indices = {}
     def shiftUp(self,i):
         if(i // 2 > 0):
             if self.func(self.heap[i]) < self.func(self.heap[i // 2]):
                 self.swap(i, i // 2)
+                t = self.indices[i // 2]
+                self.indices[i // 2] = i
+                self.indices[i] = t
                 self.shiftUp(i // 2)
     def insert(self,k):
         self.heap.append(k)
@@ -18,6 +22,9 @@ class MinHeap:
             max = self.maxChild(i)
             if (max != i) and self.func(self.heap[i]) > self.func(self.heap[max]):
                 self.swap(i, max)
+                #t = self.indices[max]
+                #self.indices[max] = i
+                #self.indices[i] = t
                 self.shiftDown(max)
             else:
                 return
@@ -42,9 +49,15 @@ class MinHeap:
         self.shiftDown(1)
         
         return retval
-
+    def updatePriority(self, i, dir='up'):
+        if dir == 'up':
+            self.shiftUp(self.indices[i])
+        else:
+            self.shiftDown(self.indices[i])
     def buildHeap(self,ll):
         self.size = len(ll)
+        for x,y in enumerate(ll):
+            self.indices[y] = x
         self.heap = [0] + ll[:]
         for i in range(len(ll) // 2, 0, -1):
             self.shiftDown(i)

@@ -7,7 +7,7 @@ def partition(intervals):
     for i in range(1,len(intervals)):
         s,e = intervals[i]
         j = 0
-        while j < len(partitions) and (s < partitions[j][-1][1]):
+        while j < len(partitions) and (s < partitions[j][-1][1]): # part[j] => list L of resource j, L[-1][1] => end time of previously inserted interval
             j += 1
         if j == len(partitions):
             partitions.append([(s,e)])
@@ -24,6 +24,6 @@ if __name__ == '__main__':
         intervals.append((s,e))
     
     min, partitions = partition(intervals)
-    print("min resoruces: ", min)
+    print("min resources: ", min)
     for p in partitions:
         print(p)

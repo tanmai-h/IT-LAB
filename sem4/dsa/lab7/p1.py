@@ -5,7 +5,7 @@ def schedule(intervals):
 
     for i in range(1,len(intervals)):
         s,e = intervals[i]
-        if s < sc[-1][1]:  #s < end of last selected
+        if s < sc[-1][1]:  #s < end of previously selected interval
             pass
         else:
             sc.append((s,e))
