@@ -1,8 +1,11 @@
 class MinHeap:
-    def __init__(self, func):
+    def __init__(self, func=None):
         self.heap = [0]
         self.size = 0
-        self.func = func
+        if func is None:
+            self.func = lambda x:x
+        else:
+            self.func = func
         self.indices = {}
     def shiftUp(self,i):
         if(i // 2 > 0):
@@ -61,3 +64,32 @@ class MinHeap:
         self.heap = [0] + ll[:]
         for i in range(len(ll) // 2, 0, -1):
             self.shiftDown(i)
+# class MinHeap:
+#     def __init__(self, func=None):
+#         self.heap = []
+#         self.size = 0
+#         if func is None:
+#             self.func = lambda x:x
+#         else:
+#             self.func = func
+#         self.indices = {}
+    
+#     def shiftUp(self, index):
+#         while (index //2 > 0):
+#             if self.func(self.heap[index]) < self.func(self.heap[index//2]):
+#                 self.indices[self.heap[index]] = index // 2
+#                 self.indices[self.heap[index//2]] = index
+#                 self.heap[index],self.heap[index//2] = self.heap[index//2],self.heap[index]
+#                 index = index // 2
+#             else:
+#                 break
+
+#     def insert(self, i):
+#         self.heap.append(i)
+#         self.indices[i] = size+1
+#         self.size += 1
+#         self.shiftUp(self.size)
+
+#     def extractMin(self):
+#         ret = self.heap[0]
+    
