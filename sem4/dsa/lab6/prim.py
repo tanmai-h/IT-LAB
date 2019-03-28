@@ -18,32 +18,29 @@ class Graph:
             self.weight[v][u] = w   
 
 def prim(G):
-    H = MinHeap()
+    H = MinHeap(lambda x: G.cost[x])
     G.cost[0] = 0
     G.cost[1] = 21
     G.cost[3] = 1
     H.buildHeap([i for i in range(G.V)])
-    print(H.extractMin())
-    print(H.extractMin())
-    print(H.extractMin())
-    # while H.size > 0:
-    #     u = H.extractMin()
-    #     print("min: ", u,end=": ")
-    #     for v in G.adj[u]:
-    #         if G.cost[v] > G.weight[u][v]:
-    #             print(v, end=", ")
-    #             G.prev[v] = u
-    #             G.cost[v] = G.weight[u][v]
-    #             #H.updatePriority(v)
-    #             print('\n',H.heap)
-    #             H.buildHeap([i for i in range(G.V)])
-    #     print()
-    # T = []
-    # for i in range(G.V):
-    #     if G.prev[i] is not None:
-    #         T.append((G.prev[i],i))
+    while H.size > 0:
+        u = H.extractMin()
+        print("min: ", u,end=": ")
+        for v in G.adj[u]:
+            if G.cost[v] > G.weight[u][v]:
+                print(v, end=", ")
+                G.prev[v] = u
+                G.cost[v] = G.weight[u][v]
+                #H.updatePriority(v)
+                print('\n',H.heap)
+                H.buildHeap([i for i in range(G.V)])
+        print()
+    T = []
+    for i in range(G.V):
+        if G.prev[i] is not None:
+            T.append((G.prev[i],i))
     
-    # return T
+    return T
 
 def G_input():
     V,E = [int(x) for x in input().strip().split()]
