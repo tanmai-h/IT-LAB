@@ -35,7 +35,7 @@ def kruskal(G):
         u,v = edges.pop()
         if dsj.find(u) != dsj.find(v):
             dsj.union(u,v)
-            T.append((u,v,G.weight[u][v]))
+            T.append((u,v))
             cost += G.weight[u][v]
     return T,cost
 

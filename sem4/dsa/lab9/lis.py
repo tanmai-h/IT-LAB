@@ -22,7 +22,7 @@ def LIS(l,dp,next):
     print(t)
     
 def main():
-    l = [10,22,9,33,21,50,41,60,80]#[5,2,8,6,3,6,9,7]#[int(x) for x in input().split()]
+    l = [10,22,9,33,21,50,41,60,80]
     dp = [0 for _ in range(len(l))]
 
     next = [-1 for _ in range(len(l))]
