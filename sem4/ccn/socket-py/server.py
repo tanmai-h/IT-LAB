@@ -1,28 +1,32 @@
-#socket - server 
-
 import socket
-import sys
 
 try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 except Exception as e:
-    print("cant create socket", e)
-
-port = 1230
+    print(e)
 
 try:
-    s.bind(('', port))
+    s.bind(('', 1232))
+    s.listen(4)    
 except Exception as e:
     print(e)
-s.listen(5)
 
-#while True:
-client, addr = s.accept()
-print("connection from: ", addr)
-client.send("u connected to the server".encode())
+def getter(file):
+    try:
+        s = ''
+        with open(file, 'r') as f:
+            s = f.readlines()
+        f.close()
+        s = ''.join(s)
+        return s
+    except Exception as e:
+        return str(e)
 
-print(client.recv(1024).decode())
-
-client.close()
-
+while True:
+    client, addr = s.accept()
+    print('From ', addr)
+    client.send('Connected'.encode())
+    f = client.recv(1024).decode()
+    client.send(getter(f).encode())
+    client.close()
 s.close()
