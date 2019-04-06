@@ -4,6 +4,7 @@ from math import inf
 def BellmanFord(G, source):
     ''' Use bottom approach '''	
     n = len(G)
+    prev = [None for i in range(n)]
     DistTable = [[inf for _ in range(n)] for _ in range(n)] #dist[source][v] = inf
     for k in range(n):
         DistTable[source][k] = 0
@@ -13,13 +14,18 @@ def BellmanFord(G, source):
         for u in range(n):
             for v,w in G[u]:
                 DistTable[v][k] = min(DistTable[u][k-1]+w, DistTable[v][k])
+                if DistTable[v][k] == DistTable[u][k-1]+w:
+                    prev[v] = u
     for u in range(n):
         for v,w in G[u]:
             if DistTable[v][-1] != inf and DistTable[v][-1] > DistTable[u][-1]+w:
                 print('Graph has negative cycle')
                 return
-           
-    ########### Pretty Print####
+    for i in range(n):
+        path(i,prev, dd)
+        print()
+    ########### Pretty Print####:
+    
     print('   ',end='')
     for k in range(n):
         print("%5d"%(k),end='')
@@ -29,7 +35,11 @@ def BellmanFord(G, source):
         for i in DistTable[u]:
             print("%5s"%(str(i)),end='')
         print()
-    #################
+    #################  
+def path(i, prev, dd):
+    if prev[i] != None:
+        path(prev[i],prev,dd)
+    print(dd[i], end = ', ')
 def main():
     v,e = [int(x) for x in input().split()]
     Graph = [[] for _ in range(v)]

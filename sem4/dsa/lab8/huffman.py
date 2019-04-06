@@ -89,6 +89,7 @@ def DecodeFile(fileName, encodings):
                     code += ch
     decode.close()
     file.close()
+
 def test():
     n = int(input('no. of symbols\n'))
     print('symbol freq')
