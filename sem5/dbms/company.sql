@@ -1,64 +1,64 @@
--- create DATABASE company;
--- use company;
--- create table EMPLOYEE(
---     Fname VARCHAR(10) NOT NULL,
---     Minit CHAR,
---     Lname VARCHAR(20)  NOT NULL,
---     Ssn CHAR(9) NOT NULL,
---     Bdate DATE,
---     Address VARCHAR(30),
---     Sex CHAR(1),
---     Salary DECIMAL(5),
---     Super_ssn CHAR(9),
---     Dno INT NOT NULL,
---     PRIMARY KEY(Ssn)
--- );
+create DATABASE company;
+use company;
+create table EMPLOYEE(
+    Fname VARCHAR(10) NOT NULL,
+    Minit CHAR,
+    Lname VARCHAR(20)  NOT NULL,
+    Ssn CHAR(9) NOT NULL,
+    Bdate DATE,
+    Address VARCHAR(30),
+    Sex CHAR(1),
+    Salary DECIMAL(5),
+    Super_ssn CHAR(9),
+    Dno INT NOT NULL,
+    PRIMARY KEY(Ssn)
+);
 
--- create table DEPARTMENT(
---     Dname VARCHAR(15) NOT NULL,
---     Dnumber INT NOT NULL,
---     Mgr_ssn CHAR(9) NOT NULL,
---     Mgr_start_date DATE,
---     PRIMARY KEY (Dnumber),
---     UNIQUE (Dname),
---     FOREIGN KEY (Mgr_ssn) REFERENCES EMPLOYEE(Ssn)
--- );
+create table DEPARTMENT(
+    Dname VARCHAR(15) NOT NULL,
+    Dnumber INT NOT NULL,
+    Mgr_ssn CHAR(9) NOT NULL,
+    Mgr_start_date DATE,
+    PRIMARY KEY (Dnumber),
+    UNIQUE (Dname),
+    FOREIGN KEY (Mgr_ssn) REFERENCES EMPLOYEE(Ssn) ON DELETE CASCADE on UPDATE CASCADE
+);
 
--- CREATE TABLE DEPT_LOCATIONS( 
---     Dnumber INT NOT NULL,
---     Dlocation VARCHAR(15) NOT NULL,
---     PRIMARY KEY (Dnumber, Dlocation),
---     FOREIGN KEY (Dnumber) REFERENCES DEPARTMENT(Dnumber) 
--- );
+CREATE TABLE DEPT_LOCATIONS( 
+    Dnumber INT NOT NULL,
+    Dlocation VARCHAR(15) NOT NULL,
+    PRIMARY KEY (Dnumber, Dlocation),
+    FOREIGN KEY (Dnumber) REFERENCES DEPARTMENT(Dnumber) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
--- create table PROJECT(
---     Pname VARCHAR(15) NOT NULL,
---     Pnumber INT NOT NULL,
---     Plocation VARCHAR(15),
---     Dnum INT NOT NULL,
---     PRIMARY KEY (Pnumber),
---     UNIQUE (Pname),
---     FOREIGN KEY (Dnum) REFERENCES DEPARTMENT(Dnumber)
--- );
+create table PROJECT(
+    Pname VARCHAR(15) NOT NULL,
+    Pnumber INT NOT NULL,
+    Plocation VARCHAR(15),
+    Dnum INT NOT NULL,
+    PRIMARY KEY (Pnumber),
+    UNIQUE (Pname),
+    FOREIGN KEY (Dnum) REFERENCES DEPARTMENT(Dnumber) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
--- CREATE TABLE WORKS_ON
--- (   Essn CHAR(9) NOT NULL,
---     Pno  INT NOT NULL,
---     Hours DECIMAL(3,1) NOT NULL,
---     PRIMARY KEY (Essn, Pno),
---     FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn),
---     FOREIGN KEY (Pno) REFERENCES PROJECT(Pnumber)
--- );
+CREATE TABLE WORKS_ON
+(   Essn CHAR(9) NOT NULL,
+    Pno  INT NOT NULL,
+    Hours DECIMAL(3,1) NOT NULL,
+    PRIMARY KEY (Essn, Pno),
+    FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Pno) REFERENCES PROJECT(Pnumber) ON DELETE CASCADE ON UPDATE CASCADE 
+);
 
--- create table DEPENDENT(
---     Essn CHAR(9)  NOT NULL,
---     Dependent_nameVARCHAR(15) NOT NULL,
---     Sex CHAR,
---     Bdate DATE,
---     Relationship VARCHAR(8),
---     PRIMARY KEY (Essn, Dependent_name),
---     FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn) 
--- );
+create table DEPENDENT(
+    Essn CHAR(9)  NOT NULL,
+    Dependent_name VARCHAR(15) NOT NULL,
+    Sex CHAR,
+    Bdate DATE,
+    Relationship VARCHAR(8),
+    PRIMARY KEY (Essn, Dependent_name),
+    FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn) ON DELETE CASCADE ON UPDATE CASCADE 
+);
 
 INSERT INTO EMPLOYEE
 VALUES      ('John','B','Smith',123456789,'1965-01-09','731 Fondren, Houston TX','M',30000,333445555,5),
@@ -118,11 +118,16 @@ VALUES      (1,'Houston'),
             (5,'Houston');
 
 ALTER TABLE DEPARTMENT
- ADD CONSTRAINT Dep_emp FOREIGN KEY (Mgr_ssn) REFERENCES EMPLOYEE(Ssn);
+ ADD CONSTRAINT Dep_emp FOREIGN KEY (Mgr_ssn) REFERENCES EMPLOYEE(Ssn) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE EMPLOYEE
- ADD CONSTRAINT Emp_emp FOREIGN KEY (Super_ssn) REFERENCES EMPLOYEE(Ssn);
+ ADD CONSTRAINT Emp_emp FOREIGN KEY (Super_ssn) REFERENCES EMPLOYEE(Ssn) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE EMPLOYEE
- ADD CONSTRAINT Emp_dno FOREIGN KEY  (Dno) REFERENCES DEPARTMENT(Dnumber);
+ ADD CONSTRAINT Emp_dno FOREIGN KEY  (Dno) REFERENCES DEPARTMENT(Dnumber) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE EMPLOYEE
- ADD CONSTRAINT Emp_super FOREIGN KEY  (Super_ssn) REFERENCES EMPLOYEE(Ssn);
+ ADD CONSTRAINT Emp_super FOREIGN KEY  (Super_ssn) REFERENCES EMPLOYEE(Ssn) ON UPDATE CASCADE ON DELETE CASCADE;    
+
+
+-- to test cascade 
+-- delete from EMPLOYEE where Ssn=333445555;
+-- update DEPARTMENT set Dnumber=314 where Dnumber=5;
