@@ -1,5 +1,5 @@
-#include<bits/stdc++.h>
-#include<omp.h>
+#include <bits/stdc++.h>
+#include <omp.h>
 
 using namespace std;
 
@@ -14,7 +14,7 @@ void print(int** matrix, int m, int n) {
 }
 
 int** init(int m, int n) {
-	int** matrix = new int * [m]; 
+	int ** matrix = new int * [m]; 
 	for(int i = 0;i < m;i++)
 		matrix[i]= new int [n];
 
@@ -26,11 +26,14 @@ int** init(int m, int n) {
 	return matrix;
 }
 
-int** multiplyMatrix(int** A,int** B,int m,int n,int p,double &time){
+int** matmul(int** A,int** B, int m, int n, int p, double &time){
 	double start = omp_get_wtime(); 
-	int **result = new int * [m]; 
-	for(int i = 0; i < m;i++)
+	int ** result = new int * [m]; 
+	for(int i = 0; i < m;i++) {
 		result[i] = new int[p];
+        for(int j = 0; j < p; j++) 
+            result[i][j] = 0;
+    } 
 
 	for(int i = 0;i < m;i++) {
 		for(int j = 0;j < p;j++){
@@ -45,14 +48,14 @@ int** multiplyMatrix(int** A,int** B,int m,int n,int p,double &time){
 }
 
 
-int main(){
+int main() {
 	int x = 300,y = 500 ,z = 700;
 
-	int** matrixA = init(x,y);
-	int** matrixB = init(y,z); 
+	int** a = init(x,y);
+	int** b = init(y,z); 
     double time = 0;
-	int **result = multiplyMatrix(matrixA,matrixB,x,y,z, time);
+	int **result = matmul(a,b,x,y,z, time);
 
     // print(result, x, z);
-	printf("Serial matmul Time : %f\n",time);
+	cout << "Serial matmul Time : " << time << "\n";
 }

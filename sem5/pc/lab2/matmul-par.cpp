@@ -25,13 +25,17 @@ int** init(int m, int n){
 	return matrix;
 }
 
-int** multiplyMatrix(int** A,int** B,int m,int n,int p,double &time){
-	int **result = new int * [m]; 
-	for(int i = 0; i < m; i++)
+int** matmul(int** A,int** B,int m,int n,int p,double &time){
+	int ** result = new int * [m]; 
+	for(int i = 0; i < m;i++) {
 		result[i] = new int[p];
+        for(int j = 0; j < p; j++) 
+            result[i][j] = 0;
+    } 
 
 	omp_set_num_threads(10);
-	double start = omp_get_wtime();
+	
+    double start = omp_get_wtime();
 	#pragma omp parallel
 	{
 		#pragma omp for
@@ -52,11 +56,12 @@ int** multiplyMatrix(int** A,int** B,int m,int n,int p,double &time){
 int main() {
 	int x = 300,y = 500 ,z = 700;
     
-	int** matrixA = init(x,y);
-	int** matrixB = init(y,z);
-	double time = 0;
-	int **result = multiplyMatrix(matrixA,matrixB,x,y,z,time);
+	int** a = init(x,y);
+	int** b = init(y,z); 
+    double time = 0;
+	int **result = matmul(a,b,x,y,z, time);
 
 	// print(result, x, z);
-	printf("Parallel matmul Time : %f\n",time);
+	cout << "Parallel matmul Time : " << time << "\n";
+    
 }
