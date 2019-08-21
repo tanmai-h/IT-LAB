@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<script src ="./js/form.js"></script>
+		<style>
+			#ex1 {
+				text-align: center;
+				margin-top: 200px;
+			}
+
+			#login-form input{
+				padding: 5px;    
+				margin-left: 70px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="ex1">
+			<form id="login-form" method="post" onsubmit="return(signup());">
+				<div><span>Name</span> <input placeholder="Full Name" type="text" id="name" name="name" /></div><br />
+				<div><span>Email</span> <input placeholder="Email" type="text" id="email" name="email" /></div><br />
+				<div><span>Mobile</span> <input placeholder="Mobile Number" type="text" id="phone" name="phone" /></div><br />
+				<div><span>Password</span><input placeholder="Password" type="password" id="pass" name="pass" /></div>
+				<div><span>Confirm Password</span><input placeholder="Confirm Password" type="password" id="confpass" name="pass" /></div>
+				
+				<input type="submit" value="login"> <span id="form-error"></span>
+			</form>
+			<!-- <a href="#" rel="modal:close">Close</a>			 -->
+		</div>
+	</body>
+</html>
