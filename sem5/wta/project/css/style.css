@@ -10,6 +10,7 @@ body {
     color: #000;
     margin: 0;
 }
+
 #nav-menu {
     list-style-type: none;
     margin: 0;
@@ -19,10 +20,12 @@ body {
     box-shadow: 0px 10px 10px 0px #000;
     display: flex;
 }
+
 #nav-menu li {
     display: inline-block;
     margin-left: 2%;
 }
+
 #nav-menu li a {
     display: block;
     color: white;
@@ -31,10 +34,12 @@ body {
     text-decoration: none;
     transition: background-color 0.3s;
 }
+
 #nav-menu li a:hover {
     background-color: #aa0000;
     box-shadow: 0px 10px 10px 0px #000;
 }
+
 #nav-btn {
     display: none;
 }
@@ -60,4 +65,14 @@ body {
         cursor: pointer;
         align-self: flex-start;
     }
+}
+
+#ex1 {
+    text-align: center;
+    margin-top: 200px;
+}
+
+#login-form input{
+    padding: 5px;    
+    margin-left: 50px;
 }

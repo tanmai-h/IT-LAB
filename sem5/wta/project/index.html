@@ -4,14 +4,14 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />	
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
+		<script src ="./js/form.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$("button").click(function(){
+				$("#nav-btn").click(function(){
 					if($("button").text() == "☰"){
 						$("button").text("X");
 						$('button').css("width", "100%");
@@ -22,7 +22,8 @@
 					}
 					$("li").toggle("slow");
 				});
-				});
+			
+			});
 		</script>
 	</head>
   
@@ -32,14 +33,21 @@
 			<ul id="nav-menu">
 				<li><a href="#">Home</a></li>
 				<li><a href="#">About</a></li>
-				<li><a href="#">Recharge</a></li>
+				<li><a href="./recharge.html">Recharge</a></li>
 				<li><a href="#">Plans</a></li>
 				<li><a href="#">Contact</a></li>
-				<li><a href="#ex1" rel="modal:open">Login</a></li>
+				<li style="margin-left: 700px;"><a href="sign-up.html">Sign Up</a></li>
+				<!-- <li><a href="#ex1" rel="modal:open">Login</a></li> -->
 			</ul>
 		</div>
-		<div id="ex1" class="modal">
-			<a href="#" rel="modal:close">Close</a>
+
+		<div id="ex1">
+			<form id="login-form" method="post" onsubmit="return(validate());">
+				<div><span>Email</span> <input placeholder="Email" type="text" id="email" name="email" /></div><br />
+				<div><span>Password</span><input placeholder="Password" type="password" id="pass" name="pass" /></div>
+				<input type="submit" value="login"> <span id="form-error"></span>
+			</form>
+			<!-- <a href="#" rel="modal:close">Close</a>			 -->
 		</div>
 	</body>
 </html>
