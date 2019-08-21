@@ -6,11 +6,11 @@ using namespace std;
 void print(int** matrix, int m, int n) {
 	for(int i = 0; i < m;i++) {
 		for(int j = 0;j < n;j++) {
-			printf("%4d ",matrix[i][j]);
+			cout << matrix[i][j] << " ";
 		}
-		printf("\n");
+		cout << "\n";
 	}
-	printf("\n");
+	cout << "\n";
 }
 
 int** init(int m, int n) {
