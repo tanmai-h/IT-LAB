@@ -63,6 +63,7 @@ def Align(x:str,y:str,dp):
         elif m == dp[i-1][j]:
             #print(x[i-1], '_', 1)
             ll.append(str(x[i-1])+' '+'_'+' '+'1')
+            i -= 1
     while i > 0:
         #print(x[i-1], '_', 1)
         ll.append(str(x[i-1])+' '+'_'+' '+'1')

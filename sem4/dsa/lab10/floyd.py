@@ -3,6 +3,7 @@ from math import inf
 def floyd(G):
     n = len(G)
     dist = [[[inf for _ in range(n)] for _ in range(n)] for _ in range(n)]
+    p = dist.copy()
     for u in range(n):
         for v,w in G[u]:
             dist[u][v][0] = w
