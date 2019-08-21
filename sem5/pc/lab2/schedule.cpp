@@ -57,16 +57,16 @@ int guided_squares ( int n ) {
 
 int main ( int argc, char *argv[] ){
     omp_set_num_threads(8);
-    int n, low = 1, high = 265000;
-    int squares;
+
+    int low = 1, high = 265000, squares;
     double times[4]; 
 
-    printf ( "Loop Schedule\n" );
-    printf ( "                           Default        Static       Dynamic       Guided\n" );
-    printf ( "         N     num Squares Till N\n");
+    printf ( "Loop Schedule for printing number of squares uptil N\n" );
+    printf ( "                           Default        Static \n");
+    printf ( "         <= n     num Squares <= N\n");
 
-    n = low;
-    while (n <= high) {
+    for(; low <= high; low *= 2) {
+        int n = low;
         times[0] = omp_get_wtime ();
         squares = default_squares (n);
         times[0] = omp_get_wtime () - times[0];
@@ -75,6 +75,13 @@ int main ( int argc, char *argv[] ){
         squares = static_squares (n);
         times[1] = omp_get_wtime () - times[1];
 
+        printf ( "  %8d  %8d  %12fs  %12fs\n", n, squares, times[0], times[1]);
+    }
+
+    printf ( "                           dynamic        guided \n");
+    printf ( "         <= n     num Squares <= N\n");
+    for(low = 1; low <= high; low *= 2) {
+        int n = low;
         times[2] = omp_get_wtime ();
         squares = dynamic_squares (n);
         times[2] = omp_get_wtime () - times[2];
@@ -83,9 +90,7 @@ int main ( int argc, char *argv[] ){
         squares = guided_squares (n);
         times[3] = omp_get_wtime () - times[3];
 
-        printf ( "  %8d  %8d  %12f  %12f  %12f %12f\n", n, squares, times[0], times[1], times[2], times[3] );
-
-        n = n * 2;
+        printf ( "  %8d  %8d  %12fs  %12fs\n", n, squares, times[2], times[3]);
     }
 
     return 0;

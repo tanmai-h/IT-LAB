@@ -26,5 +26,10 @@ int main() {
 	}
 
 	double end = omp_get_wtime();
-	cout << "using nowait Time: " << end-start << "\n";;
+	cout << "1st 20 elements of B: ";
+	for(int i = 0; i < 20; i++) cout << B[i] << " ";
+	cout << "\n";
+	cout << "1st 20 elements of C: ";
+	for(int i = 0; i < 20; i++) cout << C[i] << " ";
+	cout << "\nusing nowait Time: " << end-start << "\n";;
 }
