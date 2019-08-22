@@ -14,5 +14,10 @@ int main(){
 		C[i] = 5*i + 9;
 
 	double end = omp_get_wtime();
-	cout << "without nowait Time: " << end-start << "\n";;
+	cout << "1st 20 elements of B: ";
+	for(int i = 0; i < 20; i++) cout << B[i] << " ";
+	cout << "\n";
+	cout << "1st 20 elements of C: ";
+	for(int i = 0; i < 20; i++) cout << C[i] << " ";
+	cout << "\nwithout nowait Time: " << end-start << "\n";
 }

@@ -1,11 +1,12 @@
 from minheap import MinHeap
-
+import heapq
+from math import inf
 class Graph:
     def __init__(self, V=0, E=0):
         self.adj = [[] for i in range(V)]
         self.weight = [{} for i in range(V)]
         self.prev = [None for i in range(V)]
-        self.cost = [1e5 for i in range(V)]
+        self.cost = [inf for i in range(V)]
         self.V = V
         self.E = E
 
@@ -17,28 +18,55 @@ class Graph:
             self.adj[v].append(u)
             self.weight[v][u] = w   
 
+class node:
+    def __init__(self,v):
+        self.v = v
+    def __lt__(self, other):
+        return G.cost[self.v] < G.cost[other.v]
+         
 def prim(G):
-    H = MinHeap(lambda x: G.cost[x])
+    h = MinHeap()
     G.cost[0] = 0
-    G.cost[1] = 21
-    G.cost[3] = 1
-    H.buildHeap([i for i in range(G.V)])
-    while H.size > 0:
-        u = H.extractMin()
-        print("min: ", u,end=": ")
+    ll = [node(i) for i in range(G.V)]
+    heapq.heapify(ll)
+    
+    T = []
+    while len(ll) > 0:
+        u = heapq.heappop(ll).v
         for v in G.adj[u]:
             if G.cost[v] > G.weight[u][v]:
-                print(v, end=", ")
-                G.prev[v] = u
                 G.cost[v] = G.weight[u][v]
-                #H.updatePriority(v)
-                print('\n',H.heap)
-                H.buildHeap([i for i in range(G.V)])
-        print()
+                G.prev[v] = u
+                print(len(ll))
+                heapq.heapify(ll)
+        # for i in range(G.V-heapq.):
+        #     heapq.heappop()
     T = []
     for i in range(G.V):
         if G.prev[i] is not None:
             T.append((G.prev[i],i))
+
+    print(T)
+# def prim(G):
+#     H = MinHeap()
+#     G.cost[0] = 0
+#     H.build_heap([node(i) for i in range(G.V)])
+#     while H.size > 0:
+#         u = H.extract_min().v
+#         print("min: ", u,end=": ")
+#         for v in G.adj[u]:
+#             if G.cost[v] > G.weight[u][v]:
+#                 print(v, end=", ")
+#                 G.prev[v] = u
+#                 G.cost[v] = G.weight[u][v]
+#                 #H.updatePriority(v)
+#                 # print('\n',H.heap)
+#                 H.build_heap([node(i) for i in range(G.V)])
+#         print()
+#     T = []
+#     for i in range(G.V):
+#         if G.prev[i] is not None:
+#             T.append((G.prev[i],i))
     
     return T
 
