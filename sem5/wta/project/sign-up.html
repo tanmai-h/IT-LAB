@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html>
-	<head>		
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />	
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src ="./js/form.js"></script>
-		<style>
-			#ex1 {
-				text-align: center;
-				margin-top: 200px;
-			}
-
-			#login-form input{
-				padding: 5px;    
-				margin-left: 70px;
-			}
-		</style>
+		<script type="text/javascript">
+			// getDate();
+			$(document).ready(function(){
+				$("#nav-btn").click(function(){
+					if($("button").text() == "☰"){
+						$("button").text("X");
+						$('button').css("width", "100%");
+					}
+					else{
+						$("button").text("☰");
+						$('button').css("width", "10%");
+					}
+					$("li").toggle("slow");
+				});
+			
+			});
+		</script>
 	</head>
+
 	<body>
+		<!-- <button id="nav-btn">X</button> -->
+			<div id="nav-bar">
+				<ul id="nav-menu">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="./recharge.html">Recharge</a></li>
+					<li><a href="#">Plans</a></li>
+					<li><a href="#">Contact</a></li>
+					<li><a href="sign-up.html">Sign Up</a></li>
+					<li><a href="recharge.html">Recharge</a></li>
+					<!-- <li><a href="#ex1" rel="modal:open">Login</a></li> -->
+				</ul>
+			</div>
 		<div id="ex1">
+			<h3>Create an Account</h3>
 			<form id="login-form" method="post" onsubmit="return(signup());">
 				<div><span>Name</span> <input placeholder="Full Name" type="text" id="name" name="name" /></div><br />
 				<div><span>Email</span> <input placeholder="Email" type="text" id="email" name="email" /></div><br />

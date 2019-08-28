@@ -1,5 +1,6 @@
 body {
     background-color: #fff;
+    background-image: url("../Material-design-background-514054880_2126x1416.jpeg");
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -75,4 +76,8 @@ body {
 #login-form input{
     padding: 5px;    
     margin-left: 50px;
+}
+
+#form-error,#money {
+    color: #fff;
 }

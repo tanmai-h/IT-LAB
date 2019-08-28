@@ -47,6 +47,10 @@ function signup() {
         error.innerHTML = "Passwords must be atleast 6 characters long";
         return false;
     }
+    else if(pass.search(/[0-9]/) < 0) {
+        error.innerHTML = "Passwords must contain at least 1 digit";
+        return false;
+    }
     else {
         error.innerHTML = "";
         alert("Welcome " + name + ", you have been registered");
@@ -71,6 +75,7 @@ function amount() {
         money.innerHTML = "&#8377 578";
     }
 }
+
 function recharge() {
     email = document.getElementById("email").value;
     phone = document.getElementById("phone").value;
@@ -97,4 +102,16 @@ function recharge() {
 
         return true;
     }
+}
+
+function getDate() {
+    var currentdate = new Date(); 
+    var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+    document.getElementById("mdate").innerHTML = datetime;
 }
