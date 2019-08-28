@@ -1,0 +1,20 @@
+For fibonacci:
+
+The serial program was faster than the parallel code.
+This is because calculating the Nth fibonacci number is inherently serial, when threads are 
+created for each branch in the recursion tree, a lot of overhead is created that slows down the 
+parallel fibonacci program. The number of threads created doubles in each recursion step and hence
+this causes a lot of thread overhead.
+
+We need to use taskwait and shared data scoping while using threads in omp, this is to ensure that
+both fib(n-1) and fib(n-2) are calculated before fib(n) is returned. 
+Without data scoping wrong answer will be obtained in the parallel code.
+
+For quicksort:
+parallel quickort achieved almost 30x speedup for array size as 10^6
+Once we partition the array and obtain the pivot location, quicksort can be called on the 2
+halves using 2 different threads using #pragma omp task. This provides an increase in speed.
+
+Taskwait is not required for quicksort since once the elements have been partitioned using the pivot,
+then quickort can run independantly on the 2 halves without any issues. Hence the this divide and conquer approach
+doesn't require taskwait to be used.
