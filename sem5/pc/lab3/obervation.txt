@@ -1,3 +1,5 @@
+### Run the bash scripts ###
+
 For fibonacci:
 
 The serial program was faster than the parallel code.
@@ -16,5 +18,5 @@ Once we partition the array and obtain the pivot location, quicksort can be call
 halves using 2 different threads using #pragma omp task. This provides an increase in speed.
 
 Taskwait is not required for quicksort since once the elements have been partitioned using the pivot,
-then quickort can run independantly on the 2 halves without any issues. Hence the this divide and conquer approach
+then quickort can run independently on the 2 halves without any issues. Hence this divide and conquer approach
 doesn't require taskwait to be used.
