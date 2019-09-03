@@ -45,6 +45,7 @@ select concat(Fname," ",Lname) as name from EMPLOYEE where Dno=5 order by name;
 
 -- query 15--
 select concat(Fname," ",Lname) as Name from PROJECT as P inner join WORKS_ON as W on W.Pno=P.Pnumber inner join EMPLOYEE as E on E.Ssn=W.Essn where E.Dno=5 and P.Pname="ProductX" group by Ssn having sum(Hours)>10;
+select concat(Fname," ", Lname) from EMPLOYEE where Ssn in (select Essn from WORKS_ON where Essn in (select Ssn from EMPLOYEE where dno=5) AND Pno=1 group by (Essn) having sum(Hours)>10);
 -- select concat(Fname," ",Lname) as Name from PROJECT as P inner join DEPARTMENT as D on P.Dnum=D.Dnumber inner join WORKS_ON as W on W.Pno=P.Pnumber inner join EMPLOYEE as E on E.Ssn=W.Essn where E.Dno=5 and P.Pname="ProductX" group by Ssn having sum(Hours)>10;
 
 -- query 16--
@@ -59,3 +60,4 @@ select Pname,sum(Hours) from PROJECT as P inner join WORKS_ON as W on P.Pnumber=
 
 -- query 19--
 select avg(Salary) from EMPLOYEE as E where Sex="F";
+
