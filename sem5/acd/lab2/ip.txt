@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main(){
+    int x;
+    int a; 
+    int b;
+
+    double xewe;
+    
+    float qwq = 2.2232;
+
+    /* sdsdsdsd 
+    ds
+    */
+    // sds098090349034903
+    //sd
+    printf("sfsd\n");
+    scanf("%d", &x);
+    printf("sfsd\n");
+    scanf("%d", &x);
+    printf("sfsd\n");
+    printf("sfsd\n");
+    printf("sfsd\n");
+    scanf("%d", &x);
+
+    return 0; 
+}

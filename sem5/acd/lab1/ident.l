@@ -26,8 +26,7 @@
 "int "[a-zA-Z_][a-zA-Z_]*"" {
     if(strcmp("int main", yytext) != 0) {
         i++;
-        printf("%s\n", yytext);
-     
+        printf("%s\n", yytext);     
     }
     fprintf(yyout, "%s", yytext);
 }
