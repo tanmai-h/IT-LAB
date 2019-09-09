@@ -1,51 +1,46 @@
-import random
+import pandas as pd
 import NB as nb
-import pandas
+import random
 
-NUM_ITERATIONS=100
+def EvalFitness(InitGeneration, population_size, num_features, dataset):
+	acc, soln, FitList = 0, [0 for i in range(num_features)], []
+	FitList = []
+	for row in InitGeneration:
+		accuracy = nb.naive_bayes_classifier(dataset,num_features,row)
+		if accuracy > acc:
+			acc = accuracy
+			soln = row
+		FitList.append(accuracy)
+	return FitList, acc, soln
 
-def fitness(init_population,population_size,num_features,dataset):
-	best_accuracy=0
-	best_solution=[0 for i in range(num_features)]
-	fitness_list=[]
-	for row in init_population:
-		accuracy=nb.naive_bayes_classifier(dataset,num_features,row)
-		if accuracy>best_accuracy:
-			best_accuracy=accuracy
-			best_solution=row
-		fitness_list.append(accuracy)
-	return fitness_list,best_accuracy+1.5,best_solution
-
-def selection(fitness_list,dataset,population_size):
-	ssum = sum(fitness_list)
-	probabilites=[fitness_list[i]/ssum for i in range(len(fitness_list))]
-	cumulative_probabilites=[]
-	cc=0
+def SelectFeatures(FitList,dataset,population_size):
+	ssum = sum(FitList)
+	probabilites = [FitList[i]/ssum for i in range(len(FitList))]
+	TotalProb = []
+	cc = 0
 	for i in range(len(probabilites)):
-		cc+=probabilites[i]
-		cumulative_probabilites.append(cc)
-	rand = [random.uniform(0.0,1.0) for i in range(len(fitness_list))]
-	selected_indices=[]
+		cc += probabilites[i]
+		TotalProb.append(cc)
+	rand = [random.uniform(0.0,1.0) for i in range(len(FitList))]
+	BestIndices = []
 	for i in rand:
-		for j in range(1,len(cumulative_probabilites)):
-			if i>cumulative_probabilites[j-1] and i<cumulative_probabilites[j]:
-				selected_indices.append(j-1)
+		for j in range(1,len(TotalProb)):
+			if i > TotalProb[j-1] and i<TotalProb[j]:
+				BestIndices.append(j-1)
 				break
-	return selected_indices
+	return BestIndices
 
-def crossover(chromosomes):
-    i = 0
-    crossover_point = len(chromosomes)//3
-    while(i<len(chromosomes)-1):
-    	member1=chromosomes[i]
-    	member2=chromosomes[i+1]
-    	split1=member1[crossover_point:]
-    	split2=member2[crossover_point:]
-    	for j in range(crossover_point,len(member1)):
-    		chromosomes[i][j]=split2[j-crossover_point]
-    		chromosomes[i+1][j]=split1[j-crossover_point]
-    	i+=2
+def TournmentCrossover(chromosomes):
+	i = 0
+	TournmentCrossover_point = len(chromosomes)//3
+	while(i < len(chromosomes)-1):
+		m1, m2 = chromosomes[i],chromosomes[i+1]
+		s1, s2 =  m1[TournmentCrossover_point:], m2[TournmentCrossover_point:]
 
+		for j in range(TournmentCrossover_point,len(m1)):
+			chromosomes[i][j]=s2[j-TournmentCrossover_point]
+			chromosomes[i+1][j]=s1[j-TournmentCrossover_point]
+		i += 2
 
 def mutation(chromosomes):
     len_chromosome = len(chromosomes[0])
@@ -57,22 +52,26 @@ def mutation(chromosomes):
 
 
 def geneticAlgo(population_size,num_features,dataset):
-	# First ---> Evaluate fitness
-	for i in range(NUM_ITERATIONS):
+	MAX_ITER =100
+	for i in range(MAX_ITER):
 		print("Iter: ", i, end="")
-		init_population = [[random.randint(0,1) for i in range(num_features)] for j in range(population_size)]
-		fitness_list, best_accuracy, best_solution = fitness(init_population,population_size,num_features,dataset)
-		selected_indices = selection(fitness_list,dataset,population_size)
-		new_population = [init_population[i][:] for i in selected_indices]
-		print(" - apply crossover", end="")
-		crossover(new_population)
-		mutation(new_population)
+		InitGeneration = [
+							[random.randint(0,1) for i in range(num_features)] 
+							for j in range(population_size)
+							]
+							
+		FitList, acc, soln = EvalFitness(InitGeneration,population_size,num_features,dataset)
+		BestIndices = SelectFeatures(FitList,dataset,population_size)
+		NewGeneration = [InitGeneration[i][:] for i in BestIndices]
+		print(" - apply TournmentCrossover", end="")
+		TournmentCrossover(NewGeneration)
+		mutation(NewGeneration)
 		print(", apply mutation")
-	return best_accuracy, best_solution
+	return acc, soln
 
 if __name__=='__main__':
 	dataset_name = "../SPECTF.csv"
-	dataset = pandas.read_csv(dataset_name)
+	dataset = pd.read_csv(dataset_name)
 	num_features = len(dataset.columns)-1
 	unmodified = [1 for i in range(num_features)]
 	print("Dataset: ", dataset_name)
