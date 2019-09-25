@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Slides</title>
+	<script type="text/javascript">
+		var imgArray = new Array("1.jpg","2.jpg","3.jpg","4.jpg","5.jpg");
+		
+		numImages = 5;
+		curImage = 0;
+		
+		function change(c) {
+			curImage += c;
+			if (curImage >= numImages){
+				curImage = 0 ; 
+			} 
+			if (curImage == -1) { 
+				curImage = numImages-1;
+			} 
+			document.getElementById("myImg").src = imgArray[curImage]; 
+		}
+	</script>
+	<style>
+		div {
+			width: 100%;
+			height: 400px;
+		}
+	</style>
+</head>
+	<body>
+		<div><img width="500" height="500" id="myImg" src='1.jpg'/></div>
+		<br /><br /><br /><br /><br /><br />
+		<input type="button" value="Prev" name="cb_prev" onclick="change(-1)"/>
+		<input type="button" value="Next" name="cb_next" onclick="change(1)"/>
+	</body>
+
+</html>

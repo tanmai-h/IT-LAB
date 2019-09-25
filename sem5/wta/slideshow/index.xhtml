@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8"></meta>
+	<title> XHTML Demonstration</title>
+	<script type="text/javascript">
+		function onSubmit(){
+			var name=document.getElementById("name").value;
+			var city=document.getElementById("city").value;
+			var gender = document.forms["feedback"]["gender"].value;
+			var comments = document.forms["feedback"]["comments"].value;
+			alert("Name: " + name + "\nCity: " + city + "\nGender: " + gender + "\nComments: " +  comments);
+            
+            return false;
+		}
+	</script>
+	<style type="text/css">
+		body{
+			background-image: url("pexels-photo-1054289.jpeg");
+			background-size: cover;
+		}
+		#onlyform{
+			text-align: center;
+			margin-top: 50px;
+		}
+		button{
+			text-align: center;
+			margin-left: 45%;
+		}
+	</style>
+</head>
+
+<body>
+    <button onclick = "location.href = './slideshow.xhtml';" id="myButton">Slideshow</button>
+    <button onclick = "location.href = './feedback.xhtml';" id="btn">Feedback</button>
+        <div id="onlyform">
+            <form name="feedback" onsubmit="return onSubmit()">
+                <span>Name</span>
+                <input type="text" name="name" placeholder="Name" id="name" /><br /><br />
+
+                <span>Gender</span>
+                <input type="radio" name="gender" value="Male" />Male
+                <input type="radio" name="gender" value="Female" />Female
+
+                <br /><span>City</span>
+                <input type="text" name="city" placeholder="City" id="city" /><br /><br />
+
+                <span>Comments </span><br />
+                <textarea name="comments" rows="4" cols="50"></textarea>
+                <br />
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
+</body>
+
+</html>
