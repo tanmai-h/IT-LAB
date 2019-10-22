@@ -7,29 +7,26 @@
 #include <ctype.h>
 #include <string.h>
 #define YYSTYPE double
-float factorial(int n)
-{
-  int c;
-  float result = 1;
- 
-  for (c = 1; c <= n; c++)
-    result = result * c;
- 
-  return result;
+
+float factorial(int n) {
+	int c;
+	float result = 1;
+
+	for (c = 1; c <= n; c++)
+		result = result * c;
+
+	return result;
 }
 
-long int bin_dec(long int num)   
-{
-long int rem,sum=0,power=0;
-while(num>0)
- {
- rem = num%10;
- num = num/10;
- sum = sum + rem * pow(2,power);
- power++;
- }
-
-return sum;
+long int bin_dec(long int num) {
+	long int rem,sum=0,power=0;
+	while(num>0) {
+		rem = num%10;
+		num = num/10;
+		sum = sum + rem * pow(2,power);
+		power++;
+	}
+	return sum;
 }
 %}
 
