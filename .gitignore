@@ -1,3 +1,4 @@
 .vscode
 __pycache__
 sem3/pop/abstractCkass/Shape.class
+*.class
