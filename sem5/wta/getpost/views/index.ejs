@@ -1,0 +1,42 @@
+<html>
+    <head></head>
+        <title>
+            Get-POSt
+        </title>
+        <meta charset='utf-8'>
+        <style>
+            * {
+                text-align: center;
+            }
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="semantic/dist/semantic.min.js"></script>
+
+    </head>
+    <body>
+        <h3>Get - Post request</h3>
+        <label>Get request</label>
+        <form method="GET">
+            <label>Search Query: </label> 
+            <input type="text" id="query" name="query" required />
+            <button type="submit" id="submit">Submit</button>
+        </form>
+        
+        <hr>
+        <label>Post request</label><br />
+        <form method="POST" action="/">
+            <label>Username: </label>
+            <div class="ui input focus">
+                <input type="text" id="username" name="username" required />
+            </div>
+            
+            <br />
+            <label>Password: </label>             
+            <input type="password" id="password" name="password" required />
+            <button type="submit" id="submit">Submit</button>
+        </form>
+        
+    </body>
+</html>
