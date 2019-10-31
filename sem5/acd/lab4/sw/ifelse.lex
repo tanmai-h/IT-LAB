@@ -8,6 +8,7 @@ if                  return IF;
 then             return THEN;
 else            return ELSE;
 while           return WHILE;
+do              return DO;
 switch         return SWITCH;
 case             return CASE;
 default         return DEFAULT;

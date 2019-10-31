@@ -1,13 +1,5 @@
 switch(e){
 case 1:
-a=b+c;
-break;
-case 2:
-for(i=2;i<=3;i=i+1){g=i-2;}    
-break;
-case 3:
-if(a>30) then
-a=33;
-else a=2;
+do{i=i+1;} while(i<10)
 break;
 }
