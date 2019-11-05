@@ -1,4 +1,4 @@
-CREATE VIEW TNS AS
+ CREATE VIEW TNS AS
 SELECT m.title, r.stars, rv.name FROM Rating r 
 inner join Movie m on r.mID=m.mID 
 inner join Reviewer rv on r.rID=rv.rID;
