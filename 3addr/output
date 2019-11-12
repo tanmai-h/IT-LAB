@@ -1,0 +1,11 @@
+$L1:
+$t0	=	a	<	3
+if( not $t0)	goto $L2
+$t2	=	b	+	c
+$t3	=	$t2	+	d
+a	=	$t3
+$t3	=	2	+	d
+$t0	=	$t3	-	a
+c	=	$t0
+		goto $L1
+$L2: 

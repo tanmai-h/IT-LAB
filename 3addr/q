@@ -1,0 +1,10 @@
+void main(){
+
+int a,b,c,d;
+
+while(a<3) start
+a=b+c+d;
+c=2+d-a;
+end
+
+}
