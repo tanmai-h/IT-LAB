@@ -1,0 +1,48 @@
+Packets from  (Src: 10.10.1.1 port: 81 ) to (dest: 10.100.1.1 port: 80 )
+Begin emission:
+Finished sending 1 packets.
+..............................................................................................................................................
+Received 142 packets, got 0 answers, remaining 1 packets
+Raw packet:  b'P\xeb\x1a\x90a28\x00%\x95\xad{\x08\x00E\x00\x00(\x00\x01\x00\x00@\x06d`\n\n\x01\x01\nd\x01\x01\x00Q\x00P\x00\x00\x00\x00\x00\x00\x00\x00P\x02 \x00x\xd2\x00\x00'
+###[ Ethernet ]###
+  dst       = 50:eb:1a:90:61:32
+  src       = 38:00:25:95:ad:7b
+  type      = IPv4
+###[ IP ]###
+     version   = 4
+     ihl       = 5
+     tos       = 0x0
+     len       = 40
+     id        = 1
+     flags     =
+     frag      = 0
+     ttl       = 64
+     proto     = tcp
+     chksum    = 0x6460
+     src       = 10.10.1.1
+     dst       = 10.100.1.1
+     \options   \
+###[ TCP ]###
+        sport     = hosts2_ns
+        dport     = http
+        seq       = 0
+        ack       = 0
+        dataofs   = 5
+        reserved  = 0
+        flags     = S
+        window    = 8192
+        chksum    = 0x78d2
+        urgptr    = 0
+        options   = []
+**********************************************************************
+Src ip:  10.10.1.1
+Dest ip:  10.100.1.1
+
+Src Mac:  38:00:25:95:ad:7b
+Dest Mac:  50:eb:1a:90:61:32
+
+Src port:  81
+Dest port:  80
+
+------Firewall:  Deny ------
+**********************************************************************

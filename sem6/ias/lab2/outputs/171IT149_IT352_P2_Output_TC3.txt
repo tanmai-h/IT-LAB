@@ -1,0 +1,11 @@
+Dest Mac Addr :  ff:ff:ff:ff:ff:ff
+Source Mac Addr:  30:9c:23:50:ce:c0
+ip version :  4
+Protocol :  UDP
+Source IP :  10.100.55.138
+Destination IP : 255.255.255.255
+Source Port : 61980
+Destination Port : 1947
+
+Firewall:  Deny
+------------------------------------------------------------------------------------------------------ 
