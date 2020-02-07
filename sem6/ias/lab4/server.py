@@ -13,7 +13,14 @@ def FiatShamirServer(AuthRound: tuple):
     print("y_sqr_mod = ", y_sqr_mod)
     print("test = ", test)
 
-    assert y_sqr_mod == test, "y_sqr_mod != test"
+    if y_sqr_mod != test:
+        print("Invalid AUth")
+
+        return False
+    
+    print("VAlid Auth")
+
+    return True
 
 def listen(port=1234):
     try: 
@@ -36,28 +43,21 @@ def main():
     
     N, v, c = -1, -1, 1
 
-    print("recv N")
-    N = client.recv(128).decode()
-
-    print("recv v")
-    v = client.recv(128).decode()
-
-    print("recv x")
-    x = client.recv(128).decode()
-
-    # assert N != -1, "didnt get N"
-    # assert v != -1, "didnt get v"
+    print("recv_Str")
+    recv_str = client.recv(1024).decode()
+    
+    N, v, x = recv_str.split(':')
 
     print("Sending c")
     client.send(str(c).encode())
-    y = client.recv(30).decode()
-
-    client.close()
-    sock.close()
+    y = client.recv(28).decode()
 
     AuthRound = (int(N), int(v), int(y), int(x), c)
 
-    FiatShamirServer(AuthRound)
+    if FiatShamirServer(AuthRound):
+        client.send("Valid auth!".encode())
+    else:
+        client.send("Invalid auth!".encode())
 
 if __name__ == '__main__':
     main()

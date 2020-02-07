@@ -3,13 +3,9 @@ import socket
 
 def FiatShamir(AuthRound: tuple):
     N, r, s, c, sock = AuthRound
-
-    # P, Q = 467, 497
-    # r, s, c = 1111, 111, 1
-    # N = P * Q
     
-    x = pow(r, 2, N)
-    v = pow(s, 2, N)
+    x = pow(r, 2, N) % N
+    v = pow(s, 2, N) % N
 
     print("N = ", N)
     print("s = ", s)
@@ -21,17 +17,8 @@ def FiatShamir(AuthRound: tuple):
     
     sock.send(str(y).encode())
     
-    # y_sqr_mod = pow(y, 2, N)
-
-    # test = (x * pow(v, c, N))%N
-
-    # print("c = ", c)
-    # print("y = ", y)
-    # print("y_sqr_mod = ", y_sqr_mod)
-    # print("test = ", test)
-
-    # assert y_sqr_mod == test, "y_sqr_mod != test"
-
+    print(sock.recv(1024).decode())
+    
 def connect(host='127.0.0.1', port=1234):
     try: 
         s = socket.socket()
@@ -49,25 +36,20 @@ def main():
     N = P*Q
     r, s, c = 1111, 111, -1
     v = pow(s, 2) % N
-    x = pow(r, 2, N)
+    x = pow(r, 2, N) % N
 
-    print("send N")
-    sock.send(str(N).encode()) #Send N
+    send_str = ':'.join([str(N), str(v), str(x)])
 
-    print("send v")
-    sock.send(str(v).encode()) # Send v = s^2 % N
-
-    print("send x")
-    sock.send(str(x).encode()) 
+    print("send_Str")
+    sock.send(send_str.encode())    
     
     print("recv c")
-    c = sock.recv(512).decode()    #Receive challenge c
+    c = int(sock.recv(28).decode()) 
 
     assert c != -1, "Didn't Receive Challenge"
 
     AuthRound = (N, r, s, c, sock)
 
-    # print(AuthRound)
     FiatShamir(AuthRound)
 
 if __name__ == '__main__':
