@@ -21,6 +21,14 @@ def connect(host='127.0.0.1', port=1234):
 
     return s
 
+def gcd(a, b): 
+    if b == 0:
+        return a
+    else: return gcd(b, a%b)
+    
+def coprime(a, b):
+    return gcd(a, b) == 1
+
 def isPrime(num: int):
     for i in range(2, int(math.sqrt(num))+1):
         if num%i == 0:
@@ -29,7 +37,7 @@ def isPrime(num: int):
     return True	
 
 def main():
-    sock = connect()
+    sock = connect('192.168.177.128')
 
     print("---------------------------CLIENT-------------------------------\n")
     for i in range(1, 3+1):
@@ -39,10 +47,20 @@ def main():
         P, Q, r, s = map(int, list(input().split(' ')))
         
         N = P*Q
-        
+        print("\tN: ", N)
         if (not isPrime(P)) or (not isPrime(Q)):
-            print("\tInvalid input for P, Q")
+            print("\tInvalid inpu: P, Q must be primes!")
             exit()
+        if (r >= N):
+            print("Invalid r input!. r must be 1 < r < N")
+            exit()
+        if (s >= N):
+            print("Invalid s input!. s must be 1 < s < N")
+            exit()            
+        if (not coprime(N, r)) or (not coprime(N, s)):
+            print("Invalid input!. s and r must be coprime to N")
+            exit()
+        
         v = pow(s, 2) % N
         x = pow(r, 2, N) % N    
 
@@ -67,5 +85,6 @@ def main():
         
     sock.close()
     print("\n========================== Auth Succesful ======================")    
+
 if __name__ == '__main__':
     main()

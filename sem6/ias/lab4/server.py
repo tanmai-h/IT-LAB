@@ -44,8 +44,13 @@ def main():
         # print("\trecv_Str")
         recv_str = client.recv(1024).decode()
     
-        N, v, x = recv_str.split(':')
-
+        try:
+            N, v, x = recv_str.split(':')
+        except Exception as e:
+            print("--------------------- Aborting... ------------")
+            sock.close()
+            client.close()
+            exit(-1)
         # print("\tSending c")
         client.send(str(c).encode())
         
